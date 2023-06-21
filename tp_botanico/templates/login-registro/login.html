@@ -7,16 +7,24 @@
 	
 	<form method="post" action="">
 		{% csrf_token %}
-		<label for="id_username">Usuario</label>
-		{{form.username}}
-
-		<label for="id_password">Contraseña</label>
-		{{form.password}}
-
+		{%for campo in form%}
+			<div>
+				<div>
+					<label for="{{campo.name}}">{{campo.label}}</label>
+					{{campo}}													
+				</div>
+				<div class="msj-error">{{campo.errors}}</div>
+			</div>
+		{%endfor%}
 		<input type="submit" value="INICIAR">
 
-		<a href="">¿Has olvidado tu contraseña?</a><br>
-		<a href={% url 'registro' %}>Crear una cuenta</a>
+		<a href="{% url 'password_reset' %}">¿Has olvidado tu contraseña?</a><br>
+		<a href="{% url 'registro' %}">Crear una cuenta</a>
 	</form>
+	{%for message in messages%}
+		<div class="mt-2 alert alert-danger" role="alert">
+			{{message}}
+		</div>
+	{%endfor%}
 </div>
 {% endblock formLoginRegistro %}

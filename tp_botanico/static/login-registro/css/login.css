@@ -2,12 +2,12 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: sans-serif;
-	height: 100vh;
+	height: auto;
 }
 
 .login-box{
 	width: 320px;
-	height: 420px;
+	height: auto;
 	background-color: rgba(221, 221, 221, 0.849);
 	color: #4e6355;
 	top: 50%;
@@ -94,8 +94,8 @@ body {
 
 .registro{
 	align-self: center;
-  	width: 420px;
-	height: 520px;
+  	width: 520px;
+	height: auto;
 	background-color: rgba(221, 221, 221, 0.849);
 	color: #4e6355;
 	padding: 70px 30px;
@@ -133,7 +133,8 @@ body {
 }
 
 .registro input[type="text"],
-.registro input[type="password"] {
+.registro input[type="password"],
+.registro input[type="email"]  {
 	border: none;
 	border-bottom: 1px solid rgba(78, 99, 85, 0.3);
 	background: transparent;
@@ -141,6 +142,7 @@ body {
 	height: 40px;
 	color: #4e6355;;
 	font-size: 16px;
+	padding-left: 5px;
 }
 
 
@@ -168,4 +170,24 @@ body {
 
 .registro a:hover{ 
 	color: rgb(8, 189, 129);
+}
+
+.msj-error{
+	font-size: 12px;
+	margin: 0;
+}
+
+.errorlist{
+	list-style: none;
+	color: rgb(243, 82, 82);
+	text-align: left;
+	margin-left: 0;	
+	padding-left: 0;		
+}
+
+.registro .input-error {
+	margin-bottom: 0;
+	border: 1px solid!important;
+	border-color: rgb(243, 82, 82)!important;	
+	border-radius: 5px!important;
 }

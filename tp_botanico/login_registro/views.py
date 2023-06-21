@@ -2,9 +2,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic import View
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from .forms import RegistroUsuario
 
 # Create your views here.
 
@@ -19,7 +20,9 @@ def mi_login(request):
             if nxt is None:
                 return redirect("inicio")
             else:
-                messages.error(request, f"Usuario o contraseña incorrecta")
+                return redirect(nxt)
+        else:
+            messages.error(request,"Usuario o contraseña incorrecta")
 
     form = AuthenticationForm()
     return render(request, 'login-registro/login.html', {"form":form})
@@ -30,11 +33,11 @@ def cerrar_sesion(request):
 
 class Registro(View):
     def get(self, request):
-        form = UserCreationForm()
+        form = RegistroUsuario()
         return render(request, 'login-registro/registro.html',{"form":form})
 
     def post(self, request):
-        form = UserCreationForm(request.POST)
+        form = RegistroUsuario(request.POST)
 
         if form.is_valid():
             usuario = form.save()
@@ -49,18 +52,5 @@ class Registro(View):
 
 
 
-    """if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            nxt = request.Get.get("next", None)
-            if nxt is None:
-                return redirect("inicio")
-            else:
-                pass
-                #message.error(request, f"Usuario o contraseña incorrecta")
-
-    form = authenticationForm()"""
+   
    

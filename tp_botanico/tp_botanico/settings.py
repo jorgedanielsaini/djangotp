@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'publica',
     'login_registro',
     'carrito'   
@@ -69,11 +70,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
 ]
 
+#'carrito.context_processor.total_carrito',
 WSGI_APPLICATION = 'tp_botanico.wsgi.application'
 
 

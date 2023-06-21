@@ -1,10 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .forms import contacto_form
+from django.shortcuts import render, redirect, get_object_or_404
+
 from django.contrib import messages
-from .models import Producto
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
 from django.core.mail import send_mail
 from django.conf import settings
+
+from .forms import contacto_form, Post_form
+from .models import *
 
 # Create your views here.
 
@@ -13,9 +17,6 @@ def index(request):
 
 def nosotros(request):
     return render(request, 'publica/nosotros.html')
-
-def club(request):
-    return render(request, 'publica/club.html')
 
 def productos(request):
     listado_productos = Producto.objects.all()
@@ -54,4 +55,52 @@ def contacto(request):
         formContacto = contacto_form()
     return render(request, "publica/contacto.html", {"formContacto": formContacto})
     
+@login_required
+def club(request):
+    posts = Post.objects.all()    
+    return render(request, 'publica/club.html', {"posts": posts})
 
+def post(request):
+    get_user = get_object_or_404(User, pk=request.user.pk)
+    if request.method == "POST":
+        form = Post_form(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = get_user
+            post.save()
+            messages.success(request, "Tu post ha sido creado!")
+            return redirect("club")
+    else:
+        form = Post_form()
+    return render(request, 'publica/crearPost.html', {"form": form})
+
+def perfil(request,username=None):
+    get_user = request.user
+    if username and username != get_user.username:
+        user = User.objects.get(username=username)
+        posts = user.post.all()
+    else:
+        posts = get_user.post.all()
+        user = get_user
+
+    context = {
+        'user':user,
+        'posts':posts
+    }
+    return render(request, 'publica/perfil.html', context)
+
+def seguir(request, username):
+    get_user = request.user
+    a_user = User.objects.get(username=username)
+    a_user_id = a_user
+    rel = Relacion(desde_user=get_user, a_user=a_user_id)
+    rel.save()
+    return redirect('club')
+
+def noSeguir(request, username):
+    get_user = request.user
+    a_user = User.objects.get(username=username)
+    a_user_id = a_user
+    rel = Relacion.objects.filter(desde_user=get_user.id, a_user=a_user_id).get()
+    rel.delete()
+    return redirect('club')

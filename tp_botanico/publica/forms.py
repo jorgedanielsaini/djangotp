@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ValidationError
+from .models import Post
 
 def nombre_valido(value):
     if not value:
@@ -39,3 +40,10 @@ class contacto_form(forms.Form):
         widget=forms.Textarea(attrs={'class': 'contacto-campo contacto-area', 'placeholder': 'Ingrese su mensaje', "rows": "5"})
         )
 
+
+class Post_form(forms.ModelForm):
+    contenido = forms.CharField(label="", widget=forms.Textarea(attrs={"rows": "2", 'placeholder': 'Escribe tu post...'}))
+
+    class Meta:
+        model= Post
+        fields = ['contenido']
