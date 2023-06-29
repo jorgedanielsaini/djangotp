@@ -15,19 +15,14 @@ class Carrito:
                 "nombre": producto.nombre,
 				"precio": str(producto.precio),
                 "cantidad": 1,
-                "imagen": producto.imagen.url    
+                "imagen": producto.imagen.url         
 			}
         else:
             for key, value in self.carrito.items():
                 if key == str(producto.id):
                     value["cantidad"] = value["cantidad"] + 1
-                    value["precio"] = str(value["cantidad"] * producto.precio)
                     break
-        producto.stock= producto.stock-1
-        producto.save()        
         self.guardarCarrito()
-
-   
 
     def guardarCarrito(self):
         self.session["carrito"] = self.carrito
@@ -36,11 +31,6 @@ class Carrito:
     def eliminar(self,producto):
         producto.id = str(producto.id)
         if producto.id in self.carrito:
-            for key, value in self.carrito.items():
-                if key == str(producto.id):
-                    producto.stock= producto.stock+value["cantidad"]
-                    producto.save()  
-                    break
             del self.carrito[producto.id]
             self.guardarCarrito()
             
@@ -48,9 +38,6 @@ class Carrito:
         for key, value in self.carrito.items():
                 if key == str(producto.id):
                     value["cantidad"] = value["cantidad"] - 1
-                    value["precio"] = str(value["cantidad"] * producto.precio)
-                    producto.stock= producto.stock+1
-                    producto.save()        
                     if  value["cantidad"] < 1:
                         self.eliminar(producto)
                     break

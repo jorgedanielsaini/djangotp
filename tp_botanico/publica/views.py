@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 
+from .models import Producto
+from .models import Planta
+
 from .forms import contacto_form, Post_form
 from .models import *
 
@@ -18,10 +21,40 @@ def index(request):
 def nosotros(request):
     return render(request, 'publica/nosotros.html')
 
+def staff(request):
+    return render(request, 'admin')
+
 def productos(request):
-    listado_productos = Producto.objects.all()
-    
+    wambi = request.GET.get('Ambientes')
+    #print(a) 
+    if wambi=="Todos" or wambi==None:
+       listado_productos = Producto.objects.all()
+    else:
+       listado_productos = Producto.objects.all().filter(ambiente=wambi)
+    #listado_productos = Producto.objects.filter(precio__range=(1200, 9999))
     return render(request, 'publica/productos.html', {"productos":listado_productos})
+
+def plantas(request):
+    wambi = request.GET.get('Ambientes')
+    #print(a) 
+    if wambi=="Todos" or wambi==None:
+       listado_productos = Planta.objects.all()
+    else:
+       listado_productos = Planta.objects.all().filter(ambiente=wambi)
+    #listado_productos = Producto.objects.filter(precio__range=(1200, 9999))
+    return render(request, 'publica/productos.html', {"productos":listado_productos})
+
+
+def productocaro(request):
+    listado_productos = Producto.objects.filter(precio__range=(5000, 9999999999))
+    return render(request, 'publica/productos.html', {"productos":listado_productos})
+
+def productobarato(request):
+    listado_productos = Producto.objects.filter(precio__range=(1, 4999))
+    #listado_productos = Producto.objects.all().filter(ambiente=loque)
+
+    return render(request, 'publica/productos.html', {"productos":listado_productos})
+
 
 def contacto(request):
     mensaje = None #Ver clase 17

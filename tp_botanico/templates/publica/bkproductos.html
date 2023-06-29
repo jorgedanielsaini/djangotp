@@ -8,41 +8,17 @@
 {% block titulo %}Tienda online{% endblock titulo %}
 
 {%block main %}
-	<div class="my-2 mx-3 segunda-nav">
-		<a href={% url 'productos' %}>Todos los Productos</a>
-		<a href={% url 'plantas' %}>Plantas</a>
-		<a href={% url 'productocaro' %}>Caras</a>
-		<a href={% url 'productobarato' %}>Baratas</a>
-	</div>
-	
-	<div class="my-4 mx-3 select-nav">
-		<form action="#">
-			<label for="lang">Ambiente:</label>
-			<select name="Ambientes" id="lang">
-				<option value="Todos">Todos</option>
-				<option value="Sol">Sol</option>
-				<option value="Sombra">Sombra</option>
-				<option value="Interior">Interior</option>
-				<option value="Exterior">Exterior</option>
-			</select>
-			<input type="submit" value="Buscar Planta" />
-		</form>
-	</div>
-	
+
 	<section class="contenedor">
 		<!-- Contenedor de los productos-->
 		<div class="contenedor-items">
-			
 			{%for producto in productos%}
 				<div class="item">
 					<span class="titulo-item">{{producto.nombre}}</span>
 					<img src= {{producto.imagen.url}} alt="imagen del producto {{producto.titulo}}" class="img-item">
 					<span class="precio-item">$ {{producto.precio}}</span>
-					<span class="Stocky"> Stock: {{producto.stock}}</span><br>
-					<span class="Amb"> Ambiente: {{producto.ambiente}}</span>
-
 					<a href="{% url 'carrito:agregar' producto.id %}" class="boton-item">Agregar al carrito</a>
-				</div>									
+				</div>			
 			{%endfor%}			
 		</div>
 
@@ -75,32 +51,15 @@
 							Sin productos
 						</div>
 				{%endif%}
-			<div class="carrito-items">
-				<!--
-				<div class="carrito-item">
-					<img src={% static './publica/img/planta8.avif' %}  alt="" width="80px">
-					<div class="carrito-item-detalle">
-						<span class="carrito-item-titulo">nombre de producto</span>
-						<div class="selector-cantidad">
-							<i class="fa-solid fa-minus restar-cantidad"></i>
-							<input type="text" value="1" class="carrito-item-cantidad" disabled>
-							<i class="fa-solid fa-plus sumar-cantidad"></i>
-						</div>
-						<span class="carrito-item-precio">$11.111</span>
-					</div>
-					<span class="btn-eliminar"><i class="fa-solid fa-trash"></i></span>
-				</div>
-				-->
+			<div class="carrito-items">				
 			</div>
 
 			<div class="carrito-total">
 				<div class="fila">
-					<!--<strong>Total</strong>
-					 <span class="carrito-precio-total">$ {{producto.precio}}</span>  -->
-					<span class="precio-item">Total $ {{total_carrito}}</span>
+					<strong>Tu total</strong>
+					<span class="carrito-precio-total">$ {{total_carrito}}</span>
 				</div>
 				<button class="btn-pagar">Pagar<i class="fa-solid fa-bag-shopping"></i></button>
-
 			</div>
 		</div>
 		
